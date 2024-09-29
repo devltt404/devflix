@@ -1,0 +1,9 @@
+# Django
+__pycache__
+*.log
+*.pot
+*.pyc
+
+*.pkl
+
+/server/.env
