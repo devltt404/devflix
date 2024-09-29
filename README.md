@@ -1,6 +1,6 @@
 # Devflix - Fullstack movie website
 
-Devflix is a full-stack movie database website built with Next.js and Django. It utilizes machine learning techniques for movie recommendations.
+Devflix is a full-stack movie database website built with Next.js, Django and PostgreSQL. It utilizes machine learning techniques for movie recommendations.
 
 ## Demo
 
