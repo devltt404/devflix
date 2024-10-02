@@ -1,8 +1,9 @@
 "use client";
 
 import { SimpleMovie } from "@/lib/definitions";
-import { getTmdbImg } from "@/lib/utils/helper.util";
+import { getTmdbImg, slugify } from "@/lib/utils/helper.util";
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
 import MovieScore from "./movie-score";
@@ -12,9 +13,13 @@ interface MovieCardProps {
 }
 export default function MovieCard({ movie }: MovieCardProps) {
   return (
-    <div>
+    <Link href={`/movie/${slugify(movie.title)}-${movie.id}`}>
       <div className="relative">
-        <img src={getTmdbImg(movie.backdrop_path)} className="rounded-md" />
+        <img
+          loading="lazy"
+          src={getTmdbImg(movie.backdrop_path)}
+          className="rounded-md"
+        />
 
         <div className="cursor-pointer group absolute inset-0 bottom-0 bg-gradient-to-t from-black to-[rgba(0,0,0,0.1)] flex flex-col justify-end py-2 px-4 transition opacity-0 hover:opacity-100 z-10">
           <div className="transition translate-y-6 group-hover:translate-y-0 text-white ">
@@ -38,6 +43,6 @@ export default function MovieCard({ movie }: MovieCardProps) {
           <ArrowRight className="absolute right-4 bottom-6 w-6 h-6 text-white          " />
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

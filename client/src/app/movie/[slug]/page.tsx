@@ -11,38 +11,38 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { ApiError } from "@/lib/errors";
 import { getMovieById, getRecommendMovies } from "@/lib/utils/api.util";
-import { getTmdbImg, isNonEmptyArray } from "@/lib/utils/helper.util";
+import {
+  getTmdbImg,
+  isNonEmptyArray,
+  unSlugify,
+} from "@/lib/utils/helper.util";
 import { Clock } from "lucide-react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 
 interface MoviePageProps {
   params: {
-    id: string;
+    slug: string;
   };
 }
 
-export async function generateMetadata({
-  params,
-}: MoviePageProps): Promise<Metadata> {
-  try {
-    const movie = await getMovieById(params.id);
-
-    return {
-      title: `${movie.title} Movie | ${process.env.NEXT_PUBLIC_APP_NAME}`,
-      description: movie.overview,
-    };
-  } catch (error) {
-    return {
-      title: "Movie Not Found",
-      description:
-        "An error occurred while fetching the movie. Please try again later.",
-    };
-  }
+export function generateMetadata({
+  params: { slug },
+}: MoviePageProps): Metadata {
+  return {
+    title: `${unSlugify(slug)} | Movie`,
+    description: `Discover about ${unSlugify(slug)} movie with ${
+      process.env.NEXT_PUBLIC_APP_NAME
+    }.`,
+  };
 }
 
-const MoviePage = async ({ params }: MoviePageProps) => {
-  const { id } = params;
+const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
+  const id = slug.split("-").pop();
+  if (!id) {
+    return notFound();
+  }
+
   let movie, recommendedMovies;
 
   try {

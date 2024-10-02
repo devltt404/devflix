@@ -33,11 +33,9 @@ export function MoviesCarousel({
       <CarouselContent className="ml-0">
         {movies.map((movie) => (
           <CarouselItem key={movie.id} className={cn(sizes[size])}>
-            <Link href={`/movie/${movie.id}`}>
               <div className="p-1">
                 <MovieCard movie={movie} />
               </div>
-            </Link>
           </CarouselItem>
         ))}
       </CarouselContent>

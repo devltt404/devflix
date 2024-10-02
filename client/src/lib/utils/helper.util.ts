@@ -12,3 +12,14 @@ export function getTmdbImg(path: string) {
 export function isNonEmptyArray<T>(arr: T[] | null | undefined): arr is T[] {
   return Array.isArray(arr) && arr.length > 0;
 }
+
+export function slugify(str: string) {
+  return str
+    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "");
+}
+
+export function unSlugify(str: string) {
+  return str.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
