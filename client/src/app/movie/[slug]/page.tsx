@@ -1,3 +1,4 @@
+import LazyYouTubeIframe from "@/components/LazyYoutubeIframe";
 import { MoviesCarousel } from "@/components/movies/movies-carousel";
 import SectionHeading from "@/components/section-heading";
 import { Badge } from "@/components/ui/badge";
@@ -140,12 +141,7 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
                     })
                     .map((video) => (
                       <CarouselItem key={video.key} className="px-40">
-                        <iframe
-                          loading="lazy"
-                          className="w-full aspect-[16/9]"
-                          src={`https://www.youtube.com/embed/${video.key}`}
-                          allowFullScreen
-                        ></iframe>
+                        <LazyYouTubeIframe videoId={video.key} />
                       </CarouselItem>
                     ))}
                 </CarouselContent>

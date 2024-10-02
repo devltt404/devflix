@@ -1,12 +1,12 @@
 import SiteFooter from "@/components/layouts/site-footer";
 import SiteHeader from "@/components/layouts/site-header";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Titillium_Web } from "next/font/google";
+import { Lato } from "next/font/google";
 import "./globals.css";
 
-const font = Titillium_Web({
+const font = Lato({
   subsets: ["latin"],
-  weight: ["400", "600", "700", "900"],
+  weight: ["400", "700", "900", "300"],
 });
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
       <body className={font.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SiteHeader />
-          <main className="bg-background">{children}</main>
+          <main className="bg-background min-h-screen">{children}</main>
           <SiteFooter />
         </ThemeProvider>
       </body>

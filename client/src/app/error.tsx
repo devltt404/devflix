@@ -34,7 +34,7 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-screen flex flex-col gap-6 items-center justify-center">
+    <div className="flex flex-col gap-6 items-center justify-center">
       <h2 className="text-4xl">Something went wrong!</h2>
       <Button onClick={refreshAndReset}>Try again</Button>
     </div>
