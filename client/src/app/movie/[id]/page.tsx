@@ -48,7 +48,7 @@ const MoviePage = async ({ params }: MoviePageProps) => {
   try {
     [movie, recommendedMovies] = await Promise.all([
       getMovieById(id),
-      getRecommendMovies(id),
+      getRecommendMovies(id, 10),
     ]);
   } catch (error) {
     if (error instanceof ApiError && error.statusCode === 404) {

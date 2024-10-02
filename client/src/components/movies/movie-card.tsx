@@ -17,12 +17,12 @@ export default function MovieCard({ movie }: MovieCardProps) {
         <img src={getTmdbImg(movie.backdrop_path)} className="rounded-md" />
 
         <div className="cursor-pointer group absolute inset-0 bottom-0 bg-gradient-to-t from-black to-[rgba(0,0,0,0.1)] flex flex-col justify-end py-2 px-4 transition opacity-0 hover:opacity-100 z-10">
-          <div className="transition translate-y-6 group-hover:translate-y-0">
+          <div className="transition translate-y-6 group-hover:translate-y-0 text-white ">
             <MovieScore score={movie.vote_average} />
             <h3 className="text-lg font-semibold mb-2">{movie.title}</h3>
             <div className="flex flex-wrap gap-2">
               {movie.genres.map((genre) => (
-                <Badge variant="outline" key={genre}>
+                <Badge className="text-white " variant="outline" key={genre}>
                   {genre}
                 </Badge>
               ))}
@@ -35,7 +35,7 @@ export default function MovieCard({ movie }: MovieCardProps) {
             </div>
           </div>
 
-          <ArrowRight className="absolute right-4 bottom-6 w-6 h-6" />
+          <ArrowRight className="absolute right-4 bottom-6 w-6 h-6 text-white          " />
         </div>
       </div>
     </div>

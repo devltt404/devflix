@@ -35,7 +35,7 @@ export default function SiteHeader() {
     <header
       className={cn(
         "fixed left-0 w-screen top-0 z-10 py-3 px-12 flex items-center gap-8 transition-all ease-in-out duration-500",
-        isScrolled ? "dark:bg-background" : "bg-transparent"
+        isScrolled ? "bg-background" : "bg-transparent"
       )}
     >
       <Link href="/">

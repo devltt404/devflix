@@ -21,7 +21,12 @@ export default function MainNav({ items }: MainNavProps) {
             item.href && (
               <NavigationMenuItem key={item.title}>
                 <Link href={item.href} legacyBehavior passHref>
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  <NavigationMenuLink
+                    className={
+                      navigationMenuTriggerStyle() +
+                      " text-gray-500 dark:text-gray-300"
+                    }
+                  >
                     {item.title}
                   </NavigationMenuLink>
                 </Link>

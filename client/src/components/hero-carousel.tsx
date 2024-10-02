@@ -30,19 +30,22 @@ export default function HeroCarousel({ movies }: { movies?: SimpleMovie[] }) {
                       )})`,
                     }}
                   ></div>
-                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black to-transparent"></div>
-                  <div className="absolute inset-x-0 top-0 h-1/5 bg-gradient-to-b from-[rgba(0,0,0,0.3)] to-transparent pointer-events-none"></div>
-                  <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-black to-transparent pointer-events-none"></div>
+                  <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-white dark:from-black to-transparent"></div>
+                  <div className="absolute inset-x-0 top-0 h-1/5 bg-gradient-to-b from-[rgba(255,255,255,0.3)] dark:from-[rgba(0,0,0,0.3)] to-transparent pointer-events-none"></div>
+                  <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-white dark:from-black to-transparent pointer-events-none"></div>
 
                   <div className="absolute bottom-52 ml-32 z-[1]">
-                    <Badge variant="outline" className="mb-4 text-sm">
+                    <Badge
+                      variant="outline"
+                      className="border-black dark:border-white mb-4 text-sm"
+                    >
                       Popular
                     </Badge>
                     <h2 className="text-6xl font-semibold max-w-[35rem]">
                       {movie.title}
                     </h2>
 
-                    <div className="my-4 text-gray-300 flex gap-2 items-center text-sm">
+                    <div className="my-4 text-gray-800 dark:text-gray-300 flex gap-2 items-center text-sm">
                       {movie.genres.join(", ")}
                       <Separator
                         orientation="vertical"
@@ -51,7 +54,7 @@ export default function HeroCarousel({ movies }: { movies?: SimpleMovie[] }) {
                       {new Date(movie.release_date).getFullYear()}
                     </div>
 
-                    <p className="max-w-[35rem] line-clamp-3 mb-8 leading-7 text-gray-300">
+                    <p className="max-w-[35rem] line-clamp-3 mb-8 leading-7 text-gray-800 dark:text-gray-300">
                       {movie.overview}
                     </p>
 
