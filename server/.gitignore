@@ -4,6 +4,4 @@ __pycache__
 *.pot
 *.pyc
 
-*.pkl
-
-/server/.env
+.env
