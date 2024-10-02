@@ -138,4 +138,4 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = [".vercel.app", "127.0.0.1", ".onrender.com"]
+ALLOWED_HOSTS = [".vercel.app", "127.0.0.1", ".onrender.com", "localhost"]
