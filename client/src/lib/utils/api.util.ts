@@ -43,7 +43,9 @@ export async function getMovieById(id: string): Promise<DetailedMovie> {
   return fetchFromApi<DetailedMovie>(`/movies/${id}`);
 }
 
-export async function getRecommendMovies(id: string): Promise<SimpleMovie[]> {
-  await fetch(`${BASE_URL}/movies/${id}/recommend`);
-  return fetchFromApi<SimpleMovie[]>(`/movies/${id}/recommend`);
+export async function getRecommendMovies(
+  id: string,
+  limit: number
+): Promise<SimpleMovie[]> {
+  return fetchFromApi<SimpleMovie[]>(`/movies/${id}/recommend?limit=${limit}`);
 }
