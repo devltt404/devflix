@@ -13,8 +13,6 @@ class MovieConfig(AppConfig):
 
         # Load the movies and similarity matrix
         try:
-            with open(os.path.join(models_path, "movies.pkl"), "rb") as f:
-                self.movies = pickle.load(f)
             with open(os.path.join(models_path, "similarity.pkl"), "rb") as f:
                 self.similarity = pickle.load(f)
         except Exception as e:

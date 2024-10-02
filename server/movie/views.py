@@ -9,6 +9,9 @@ import os
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from .serializers import MovieSerializer
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class MovieViewSet(viewsets.ViewSet):
@@ -76,10 +79,12 @@ class MovieViewSet(viewsets.ViewSet):
         except ValueError:
             return JsonResponse({"error": "Movie not found."}, status=404)
         except Exception as e:
+            logger.error(f"An error occurred in recommend_movie_ids: {e}")
             return JsonResponse({"error": "Internal Server Error."}, status=500)
 
-        # Get the recommended movies from the queryset
+        # Populate the recommended movies from the queryset
         recommended_movies = list(
             self.queryset.filter(id__in=recommended_movie_ids).values()
         )
+
         return JsonResponse(recommended_movies, safe=False)
