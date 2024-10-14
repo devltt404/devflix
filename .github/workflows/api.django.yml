@@ -1,0 +1,61 @@
+name: Django CI/CD API server
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - .github/workflows/api.django.js.yml
+      - server/**
+  pull_request:
+    branches: ["main"]
+    paths:
+      - .github/workflows/api.django.js.yml
+      - server/**
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        python-version: [3.12]
+
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: "server"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install Dependencies
+        run: python3.12 -m pip install -r requirements.txt
+
+      - name: Create .env file
+        run: |
+          cat <<EOF > .env.production
+          ALLOWED_HOSTS=${{ vars.ALLOWED_HOSTS }}
+          URL_PREFIX=${{ vars.URL_PREFIX }}
+
+          TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
+
+          DB_HOST=${{ secrets.DB_HOST }}
+          DB_PORT=${{ secrets.DB_PORT }}
+          DB_USER=${{ secrets.DB_USER }}
+          DB_NAME=${{ secrets.DB_NAME }}
+          DB_PASSWORD=${{ secrets.DB_PASSWORD }}
+          EOF
+
+      - name: Run migrations
+        run: python3.12 manage.py migrate
+
+      - name: Start server
+        run: pm2 restart devflix-api --update-env || pm2 start manage.py --name devflix-api --interpreter python3.12 -- runserver 0.0.0.0:8000
