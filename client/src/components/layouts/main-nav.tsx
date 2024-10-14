@@ -14,7 +14,7 @@ type MainNavProps = {
 
 export default function MainNav({ items }: MainNavProps) {
   return (
-    <NavigationMenu>
+    <NavigationMenu className="hidden lg:flex">
       <NavigationMenuList>
         {items.map(
           (item) =>
@@ -31,7 +31,7 @@ export default function MainNav({ items }: MainNavProps) {
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
-            )
+            ),
         )}
       </NavigationMenuList>
     </NavigationMenu>

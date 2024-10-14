@@ -34,21 +34,21 @@ export default function SiteHeader() {
   return (
     <header
       className={cn(
-        "fixed left-0 w-screen top-0 z-10 py-3 px-12 flex items-center gap-8 transition-all ease-in-out duration-500",
-        isScrolled ? "bg-background" : "bg-transparent"
+        "fixed inset-x-0 top-0 z-10 flex items-center gap-8 px-4 py-3 transition-all duration-500 ease-in-out sm:px-12",
+        isScrolled ? "bg-background" : "bg-transparent",
       )}
     >
       <Link href="/">
         <Logo
           className={cn(
-            "transition text-3xl",
-            isScrolled ? "scale-90" : "scale-110"
+            "text-3xl transition",
+            isScrolled ? "scale-90" : "scale-110",
           )}
         />
       </Link>
       <MainNav items={siteConfig.mainNav} />
 
-      <div className="flex gap-4 ml-auto">
+      <div className="ml-auto flex gap-4">
         <ExpandableSearch />
 
         <Button
@@ -63,7 +63,7 @@ export default function SiteHeader() {
           <span className="sr-only">Toggle theme</span>
         </Button>
 
-        <Button>Sign In</Button>
+        <Button className="hidden md:block">Sign In</Button>
       </div>
     </header>
   );

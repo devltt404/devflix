@@ -69,14 +69,14 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
         style={{
           backgroundImage: `url(${getTmdbImg(movie.backdrop_path)})`,
         }}
-        className="relative pt-[25%] bg-[center_top] bg-fixed bg-no-repeat bg-cover"
+        className="relative h-[30rem] bg-[center_top] bg-fixed bg-no-repeat bg-cover"
       >
         <div className="absolute bottom-0 inset-x-0 h-full bg-gradient-to-t from-background to-background/10"></div>
       </div>
 
-      <div className="relative container -translate-y-60 -mb-20">
-        <div className="flex items-end gap-20 mb-14">
-          <div className="w-[22%] aspect-[3/4.5] shrink-0">
+      <div className="relative container -translate-y-96 lg:-translate-y-60 -mb-72 lg:-mb-20">
+        <div className="grid lg:grid-cols-[20rem_1fr] items-end gap-y-14 gap-x-20 mb-14">
+          <div className="w-[80%] sm:w-[55%] lg:w-full mx-auto aspect-[3/4.5] shrink-0">
             <img
               className="w-full h-full object-cover"
               src={getTmdbImg(movie.poster_path)}
@@ -98,7 +98,7 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
               </p>
             </div>
 
-            <h1 className="text-5xl font-bold my-2">{movie.title}</h1>
+            <h1 className="text-4xl md:text-5xl font-bold my-2">{movie.title}</h1>
 
             <p className="text-lg leading-8 my-3">{movie.overview}</p>
 
@@ -129,18 +129,24 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-20">
+        <div className="flex flex-col gap-14 md:gap-20">
           {isNonEmptyArray(movie.videos.results) && (
             <section>
-              <SectionHeading className="mb-12">Videos</SectionHeading>
+              <SectionHeading>Videos</SectionHeading>
               <Carousel className="w-full">
-                <CarouselContent>
+                <CarouselContent className="">
                   {movie.videos.results
                     .filter((video) => {
                       return video.site === "YouTube";
                     })
                     .map((video) => (
-                      <CarouselItem key={video.key} className="px-40">
+                      <CarouselItem
+                        key={video.key}
+                        className="basis-auto pl-4"
+                        style={{
+                          width: "clamp(340px, 80%, 600px)",
+                        }}
+                      >
                         <LazyYouTubeIframe videoId={video.key} />
                       </CarouselItem>
                     ))}
@@ -153,10 +159,8 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
 
           {isNonEmptyArray(recommendedMovies) && (
             <section>
-              <SectionHeading className="mb-12">
-                Recommended For You
-              </SectionHeading>
-              <MoviesCarousel size="md" movies={recommendedMovies} />
+              <SectionHeading>Related Movies</SectionHeading>
+              <MoviesCarousel movies={recommendedMovies} />
             </section>
           )}
         </div>

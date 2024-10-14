@@ -21,14 +21,14 @@ const SectionHeading = ({
   }, [children]);
 
   return (
-    <div className={cn(className)}>
-      <h2 ref={headingRef} className="text-3xl font-semibold inline-block">
+    <div className={cn("mb-6 sm:mb-12", className)}>
+      <h2 ref={headingRef} className="inline-block text-3xl font-semibold">
         {children}
       </h2>
-      <div className={cn("h-[3px] relative mt-3", showFullLine && "bg-muted")}>
+      <div className={cn("relative mt-3 h-[3px]", showFullLine && "bg-muted")}>
         <div
           style={{ width: headingWidth }} // Set the width of the line to the width of the heading
-          className="h-[3px] bg-primary mb-6 rounded-full transition-all duration-300 ease-in-out"
+          className="mb-6 h-[3px] rounded-full bg-primary transition-all duration-300 ease-in-out"
         ></div>
       </div>
     </div>

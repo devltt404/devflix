@@ -1,5 +1,6 @@
 import HeroCarousel from "@/components/hero-carousel";
-import MoviesSectionContainer from "@/components/movies/movies-section-container";
+import { MoviesCarousel } from "@/components/movies/movies-carousel";
+import SectionHeading from "@/components/section-heading";
 import { SORT_BY_OPTIONS } from "@/lib/constants";
 import { MoviesSection } from "@/lib/definitions.ts";
 import { getMovies } from "@/lib/utils/api.util";
@@ -37,19 +38,20 @@ export default async function Home() {
   ];
 
   return (
-    <div className="-mb-16 animate-page-enter">
+    <div className="sm:-mb-18 animate-page-enter max-sm:pb-8">
       <HeroCarousel movies={popular?.data} />
 
-      <div className="-translate-y-36">
+      <div className="mx-4 flex -translate-y-8 flex-col gap-12 sm:mx-12 sm:-translate-y-28 md:gap-16">
         {moviesSections.map(
-          (section) =>
+          (section, i) =>
             isNonEmptyArray(section.movies) && (
-              <MoviesSectionContainer
-                key={section.title}
-                title={section.title}
-                movies={section.movies}
-              />
-            )
+              <section key={i}>
+                <SectionHeading showFullLine={false}>
+                  {section.title}
+                </SectionHeading>
+                <MoviesCarousel movies={section.movies} />
+              </section>
+            ),
         )}
       </div>
     </div>

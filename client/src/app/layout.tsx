@@ -19,7 +19,7 @@ export default function RootLayout({
       <body className={font.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SiteHeader />
-          <main className="bg-background min-h-screen">{children}</main>
+          <main className="bg-background">{children}</main>
           <SiteFooter />
         </ThemeProvider>
       </body>

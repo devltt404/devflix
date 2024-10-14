@@ -33,12 +33,12 @@ export default function ExpandableSearch() {
   }, []);
 
   return (
-    <div className="relative min-w-10">
+    <div className="relative hidden min-w-10 md:block">
       <Input
         ref={inputRef}
         className={cn(
           "transition-expanding-input",
-          isOpen ? "w-56 pl-10" : "w-0"
+          isOpen ? "w-56 pl-10" : "w-0",
         )}
         placeholder="Search a movie..."
         value={value}
@@ -48,14 +48,14 @@ export default function ExpandableSearch() {
         aria-label="Search"
         variant={isOpen ? "ghost" : "outline"}
         className={cn(
-          "transition-expanding-input-button absolute top-1/2 -translate-y-1/2"
+          "transition-expanding-input-button absolute top-1/2 -translate-y-1/2",
         )}
         size="icon"
         onClick={() => {
           setIsOpen((prev) => !prev);
         }}
       >
-        <Search className={cn("w-[1.2rem] h-[1.2rem]", isOpen && "scale-90")} />
+        <Search className={cn("h-[1.2rem] w-[1.2rem]", isOpen && "scale-90")} />
       </Button>
     </div>
   );

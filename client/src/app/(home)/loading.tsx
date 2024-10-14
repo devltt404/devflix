@@ -2,7 +2,7 @@ import LogoSpinner from "@/components/loading/logo-spinner";
 
 const RootLoading = () => {
   return (
-    <div className="flex flex-col min-h-screen gap-8 items-center justify-center fixed inset-0 z-[999] pointer-events-none bg-background">
+    <div className="pointer-events-none fixed inset-0 z-[999] flex min-h-screen flex-col items-center justify-center gap-8 bg-background">
       <LogoSpinner />
     </div>
   );

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const LazyYouTubeIframe = ({ videoId }: { videoId: string }) => {
   const [isIframeLoaded, setIframeLoaded] = useState(false);
   const [thumbnailUrl, setThumbnailUrl] = useState(
-    `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+    `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
   );
 
   useEffect(() => {
@@ -25,28 +25,28 @@ const LazyYouTubeIframe = ({ videoId }: { videoId: string }) => {
   };
 
   return (
-    <div className="w-full aspect-[16/9]">
+    <div className="aspect-[16/9] w-full">
       {isIframeLoaded ? (
         <iframe
           allow="autoplay"
           loading="lazy"
-          className="w-full h-full"
+          className="h-full w-full"
           src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
           allowFullScreen
         ></iframe>
       ) : (
         <div className="relative h-full">
           <img
-            className="w-full h-full object-cover cursor-pointer"
+            className="h-full w-full cursor-pointer object-cover"
             src={thumbnailUrl}
             alt="YouTube Video Thumbnail"
           />
 
           <button
             onClick={handleLoadIframe}
-            className="absolute inset-0 flex items-center justify-center w-full h-full bg-black bg-opacity-30"
+            className="absolute inset-0 flex h-full w-full items-center justify-center bg-black bg-opacity-30"
           >
-            <PlayIcon className="w-16 h-16 text-white fill-white " />
+            <PlayIcon className="h-16 w-16 fill-white text-white" />
           </button>
         </div>
       )}

@@ -14,33 +14,31 @@ interface MovieCardProps {
 export default function MovieCard({ movie }: MovieCardProps) {
   return (
     <Link href={`/movie/${slugify(movie.title)}-${movie.id}`}>
-      <div className="relative">
-        <img
-          loading="lazy"
-          src={getTmdbImg(movie.backdrop_path)}
-          className="rounded-md"
-        />
+      <div className="relative w-[20rem] sm:w-[22rem]">
+        <img src={getTmdbImg(movie.backdrop_path)} className="rounded-md" />
 
-        <div className="cursor-pointer group absolute inset-0 bottom-0 bg-gradient-to-t from-black to-[rgba(0,0,0,0.1)] flex flex-col justify-end py-2 px-4 transition opacity-0 hover:opacity-100 z-10">
-          <div className="transition translate-y-6 group-hover:translate-y-0 text-white ">
+        <div className="group absolute inset-0 bottom-0 z-10 flex cursor-pointer flex-col justify-end rounded-sm bg-gradient-to-t from-black to-[rgba(0,0,0,0.1)] px-4 py-2 transition lg:opacity-0 lg:hover:opacity-100">
+          <div className="text-white transition lg:translate-y-6 lg:group-hover:translate-y-0">
             <MovieScore score={movie.vote_average} />
-            <h3 className="text-lg font-semibold mb-2">{movie.title}</h3>
-            <div className="flex flex-wrap gap-2">
-              {movie.genres.map((genre) => (
-                <Badge className="text-white " variant="outline" key={genre}>
+            <h3 className="mb-2 line-clamp-1 text-lg font-semibold">
+              {movie.title}
+            </h3>
+            <div className="hidden flex-wrap gap-2 md:flex">
+              {movie.genres.slice(0, 2).map((genre) => (
+                <Badge className="text-white" variant="outline" key={genre}>
                   {genre}
                 </Badge>
               ))}
             </div>
-            <div className="my-2 text-sm flex items-center gap-4 ">
-              {movie.runtime >= 60 ? `${Math.floor(movie.runtime / 60)}h ` : ""}
+            <div className="my-2 flex items-center gap-4 text-sm">
+              {movie.runtime >= 60 ? `${Math.floor(movie.runtime / 60)}h` : ""}
               {movie.runtime % 60}m
-              <Separator orientation="vertical" className="bg-gray-700 h-4" />
+              <Separator orientation="vertical" className="h-4 bg-gray-700" />
               {new Date(movie.release_date).getFullYear()}
             </div>
           </div>
 
-          <ArrowRight className="absolute right-4 bottom-6 w-6 h-6 text-white          " />
+          <ArrowRight className="absolute bottom-6 right-4 h-6 w-6 text-white" />
         </div>
       </div>
     </Link>

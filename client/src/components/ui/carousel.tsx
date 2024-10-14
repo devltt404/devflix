@@ -209,7 +209,7 @@ const CarouselPrevious = React.forwardRef<
       type="button"
       ref={ref}
       className={cn(
-        "group h-full bg-transparent transition  absolute left-0 top-0 flex items-center px-3",
+        "group h-full bg-transparent transition  absolute left-0 top-0 hidden md:flex items-center px-3",
         className
       )}
       onClick={scrollPrev}
@@ -234,7 +234,7 @@ const CarouselNext = React.forwardRef<
       type="button"
       ref={ref}
       className={cn(
-        "group h-full bg-transparent transition  absolute right-0 top-0 flex items-center px-3",
+        "group h-full bg-transparent transition  absolute right-0 top-0 hidden md:flex items-center px-3",
         className
       )}
       onClick={scrollNext}
@@ -258,7 +258,7 @@ const CarouselIndicator = React.forwardRef<
   return (
     <div
       ref={ref}
-      className={cn("absolute right-24 bottom-40", className)}
+      className={cn("absolute ", className)}
       {...props}
     >
       {Array.from({ length: slideCount }).map((_, index) => (
@@ -271,7 +271,7 @@ const CarouselIndicator = React.forwardRef<
         >
           <div
             className={cn(
-              "w-14 h-[2px] transition rounded-full mx-1",
+              "w-10 md:w-14 h-[2px] transition rounded-full mx-1",
               index === currentSlide ? "bg-white" : "bg-zinc-600"
             )}
           >
