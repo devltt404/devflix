@@ -4,12 +4,12 @@ on:
   push:
     branches: ["main"]
     paths:
-      - .github/workflows/api.django.js.yml
+      - .github/workflows/api.django.yml
       - server/**
   pull_request:
     branches: ["main"]
     paths:
-      - .github/workflows/api.django.js.yml
+      - .github/workflows/api.django.yml
       - server/**
   workflow_dispatch:
 
