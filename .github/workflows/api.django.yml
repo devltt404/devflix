@@ -32,9 +32,10 @@ jobs:
           sparse-checkout: "server"
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
+          allow-prerelease: true
 
       - name: Install Dependencies
         run: python3.12 -m pip install -r requirements.txt
