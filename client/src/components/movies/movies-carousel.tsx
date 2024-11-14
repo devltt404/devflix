@@ -8,7 +8,11 @@ import {
 import { SimpleMovie } from "@/lib/definitions";
 import MovieCard from "./movie-card";
 
-export function MoviesCarousel({ movies }: { movies: SimpleMovie[] }) {
+interface MoviesCarouselProps {
+  movies: SimpleMovie[];
+}
+
+export function MoviesCarousel({ movies }: MoviesCarouselProps) {
   return (
     <Carousel
       opts={{

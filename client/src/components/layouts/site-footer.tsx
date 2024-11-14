@@ -1,4 +1,4 @@
-import { siteConfig } from "@/config/site";
+import { siteConfig } from "@/config/site.config";
 import Link from "next/link";
 import Logo from "../logo";
 

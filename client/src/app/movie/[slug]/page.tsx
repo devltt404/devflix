@@ -1,6 +1,6 @@
-import LazyYouTubeIframe from "@/components/LazyYoutubeIframe";
+import LazyYouTubeIframe from "@/components/lazy-youtube-iframe";
+import MovieDetailSection from "@/components/movies/movie-detail-section";
 import { MoviesCarousel } from "@/components/movies/movies-carousel";
-import SectionHeading from "@/components/section-heading";
 import { Badge } from "@/components/ui/badge";
 import {
   Carousel,
@@ -10,13 +10,14 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
-import { ApiError } from "@/lib/errors";
-import { getMovieById, getRecommendMovies } from "@/lib/utils/api.util";
+import { FetchError } from "@/lib/errors";
 import {
-  getTmdbImg,
+  getTmdbPoster,
+  getTmdbProfile,
   isNonEmptyArray,
   unSlugify,
 } from "@/lib/utils/helper.util";
+import { getMovie, getRecommendMovies } from "@/lib/utils/requests.util";
 import { Clock } from "lucide-react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -40,46 +41,42 @@ export function generateMetadata({
 
 const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
   const id = slug.split("-").pop();
-  if (!id) {
-    return notFound();
-  }
+  if (!id) return notFound();
 
   let movie, recommendedMovies;
 
   try {
     [movie, recommendedMovies] = await Promise.all([
-      getMovieById(id),
+      getMovie(id),
       getRecommendMovies(id, 10),
     ]);
   } catch (error) {
-    if (error instanceof ApiError && error.statusCode === 404) {
+    if (error instanceof FetchError && error.statusCode === 404) {
       return notFound();
     }
 
     throw error;
   }
 
-  if (!movie) {
-    return notFound();
-  }
+  if (!movie) return notFound();
 
   return (
     <div className="animate-page-enter">
       <div
         style={{
-          backgroundImage: `url(${getTmdbImg(movie.backdrop_path)})`,
+          backgroundImage: `url(${getTmdbPoster(movie.backdrop_path)})`,
         }}
-        className="relative h-[30rem] bg-[center_top] bg-fixed bg-no-repeat bg-cover"
+        className="relative h-[30rem] bg-cover bg-fixed bg-[center_top] bg-no-repeat"
       >
-        <div className="absolute bottom-0 inset-x-0 h-full bg-gradient-to-t from-background to-background/10"></div>
+        <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-background to-background/10"></div>
       </div>
 
-      <div className="relative container -translate-y-96 lg:-translate-y-60 -mb-72 lg:-mb-20">
-        <div className="grid lg:grid-cols-[20rem_1fr] items-end gap-y-14 gap-x-20 mb-14">
-          <div className="w-[80%] sm:w-[55%] lg:w-full mx-auto aspect-[3/4.5] shrink-0">
+      <div className="container relative -mb-72 -translate-y-96 lg:-mb-20 lg:-translate-y-60">
+        <div className="mb-14 grid items-end gap-x-20 gap-y-14 lg:grid-cols-[20rem_1fr]">
+          <div className="mx-auto aspect-[3/4.5] w-[80%] shrink-0 sm:w-[55%] lg:w-full">
             <img
-              className="w-full h-full object-cover"
-              src={getTmdbImg(movie.poster_path)}
+              className="h-full w-full object-cover"
+              src={getTmdbPoster(movie.poster_path)}
             />
           </div>
 
@@ -88,8 +85,8 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
               <p className="text-2xl font-semibold">
                 {movie.release_date.split("-")[0]}
               </p>
-              <div className="w-1 h-1 mx-3 rounded-full bg-gray-500"></div>
-              <Clock className="w-4 h-4 stroke-[3px] mr-2" />
+              <div className="mx-3 h-1 w-1 rounded-full bg-gray-500"></div>
+              <Clock className="mr-2 h-4 w-4 stroke-[3px]" />
               <p>
                 {movie.runtime >= 60
                   ? `${Math.floor(movie.runtime / 60)}h `
@@ -98,12 +95,14 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
               </p>
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-bold my-2">{movie.title}</h1>
+            <h1 className="my-2 text-4xl font-bold md:text-5xl">
+              {movie.title}
+            </h1>
 
-            <p className="text-lg leading-8 my-3">{movie.overview}</p>
+            <p className="my-3 text-lg leading-8">{movie.overview}</p>
 
-            <div className="flex flex-wrap items-center gap-2 mt-4 mb-7">
-              <p className="text-xl font-semibold mr-2">Genres</p>
+            <div className="mb-7 mt-4 flex flex-wrap items-center gap-2">
+              <p className="mr-2 text-xl font-semibold">Genres</p>
               {movie.genres.map((genre) => (
                 <Badge className="py-1" variant="outline" key={genre.name}>
                   {genre.name}
@@ -113,14 +112,14 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
 
             <div className="flex items-center gap-8">
               <div>
-                <span className="font-semibold text-3xl mr-2">
+                <span className="mr-2 text-3xl font-semibold">
                   {movie.vote_average.toFixed(2)}
                 </span>
                 <span className="text-xl text-muted-foreground">TMDB</span>
               </div>
               <Separator orientation="vertical" className="h-12 w-[2px]" />
               <div>
-                <span className="font-semibold text-3xl mr-2">
+                <span className="mr-2 text-3xl font-semibold">
                   {movie.vote_count}
                 </span>
                 <span className="text-xl text-muted-foreground">Ratings</span>
@@ -130,9 +129,38 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
         </div>
 
         <div className="flex flex-col gap-14 md:gap-20">
+          {isNonEmptyArray(movie.credits.cast) && (
+            <MovieDetailSection title="Cast & Crew">
+              <Carousel className="-mt-3 w-full">
+                <CarouselContent className="-ml-12 py-2">
+                  {movie.credits.cast.slice(0, 10).map((person) => (
+                    <CarouselItem
+                      key={person.id}
+                      className="flex basis-auto select-none items-center gap-4 pl-14"
+                    >
+                      <img
+                        className="aspect-square w-24 rounded-full object-cover ring-2 ring-primary"
+                        src={getTmdbProfile(person.profile_path, person.gender)}
+                      />
+                      <div>
+                        <p className="mb-2 text-lg font-semibold">
+                          {person.name}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {person.character}
+                        </p>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            </MovieDetailSection>
+          )}
+
           {isNonEmptyArray(movie.videos.results) && (
-            <section>
-              <SectionHeading>Videos</SectionHeading>
+            <MovieDetailSection title="Videos">
               <Carousel className="w-full">
                 <CarouselContent className="">
                   {movie.videos.results
@@ -154,14 +182,13 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
                 <CarouselPrevious />
                 <CarouselNext />
               </Carousel>
-            </section>
+            </MovieDetailSection>
           )}
 
           {isNonEmptyArray(recommendedMovies) && (
-            <section>
-              <SectionHeading>Related Movies</SectionHeading>
+            <MovieDetailSection title="Related Movies">
               <MoviesCarousel movies={recommendedMovies} />
-            </section>
+            </MovieDetailSection>
           )}
         </div>
       </div>

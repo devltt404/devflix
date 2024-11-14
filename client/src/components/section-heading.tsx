@@ -2,15 +2,17 @@
 import { cn } from "@/lib/utils/helper.util";
 import { useEffect, useRef, useState } from "react";
 
+interface SectionHeadingProps {
+  children: React.ReactNode;
+  className?: string;
+  showFullLine?: boolean;
+}
+
 const SectionHeading = ({
   children,
   className,
   showFullLine = true,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  showFullLine?: boolean;
-}) => {
+}: SectionHeadingProps) => {
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const [headingWidth, setHeadingWidth] = useState<number>(0);
 

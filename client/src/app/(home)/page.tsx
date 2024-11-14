@@ -3,13 +3,23 @@ import { MoviesCarousel } from "@/components/movies/movies-carousel";
 import SectionHeading from "@/components/section-heading";
 import { SORT_BY_OPTIONS } from "@/lib/constants";
 import { MoviesSection } from "@/lib/definitions.ts";
-import { getMovies } from "@/lib/utils/api.util";
 import { isNonEmptyArray } from "@/lib/utils/helper.util";
+import { getMovies } from "@/lib/utils/requests.util";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: `Home | ${process.env.NEXT_PUBLIC_APP_NAME}`,
   description: `${process.env.NEXT_PUBLIC_APP_NAME} is a movie database website built with Next.js and Django where you can find information about movies, TV shows, and celebrities.`,
+  keywords: [
+    "movies",
+    "tv shows",
+    "celebrities",
+    "actors",
+    "actresses",
+    "movie database",
+    "tv show database",
+    "movie recommendations",
+  ],
 };
 
 export default async function Home() {

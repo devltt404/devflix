@@ -1,15 +1,17 @@
-from rest_framework import viewsets
-from django.http import JsonResponse
-from rest_framework.decorators import action
-from django.core.paginator import Paginator
-from .models import Movie
-from .recommender import recommend_by_movie_id
-import requests
+import logging
 import os
+
+import requests
+from django.core.paginator import Paginator
+from django.http import JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from rest_framework import viewsets
+from rest_framework.decorators import action
+
+from .models import Movie
+from .recommender import recommend_by_movie_id
 from .serializers import MovieSerializer
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -47,28 +49,6 @@ class MovieViewSet(viewsets.ViewSet):
         }
 
         return JsonResponse(response_data)
-
-    def retrieve(self, request, pk=None):
-        # Fetch the movie detail by ID from TMDB API
-        api_key = os.getenv("TMDB_API_KEY")
-        url = f"https://api.themoviedb.org/3/movie/{pk}?language=en-US&append_to_response=videos"
-        headers = {
-            "accept": "application/json",
-            "Authorization": f"Bearer {api_key}",
-        }
-
-        try:
-            response = requests.get(url, headers=headers)
-            response.raise_for_status()
-
-            movie = response.json()
-            return JsonResponse(movie)
-        except requests.exceptions.HTTPError as err:
-            if err.response.status_code == 404:
-                return JsonResponse({"message": "Movie not found."}, status=404)
-        except Exception as e:
-            print(e)
-            return JsonResponse({"message": "Internal Server Error."}, status=500)
 
     @action(detail=True, methods=["get"], url_path="recommend")
     def recommend(self, request, pk=None):

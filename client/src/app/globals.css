@@ -1,6 +1,6 @@
 @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   :root {
@@ -51,4 +51,12 @@
 
 body {
   overflow-y: scroll;
+}
+
+.container-area {
+  @apply container py-24;
+}
+
+.heading {
+  @apply text-4xl font-bold;
 }

@@ -1,4 +1,4 @@
-export class ApiError extends Error {
+export class FetchError extends Error {
   statusCode: number;
 
   constructor({

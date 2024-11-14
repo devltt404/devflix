@@ -2,7 +2,6 @@
 
 import ExpandableSearch from "@/components/expandable-search";
 import { Button } from "@/components/ui/button";
-import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils/helper.util";
 import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -46,7 +45,8 @@ export default function SiteHeader() {
           )}
         />
       </Link>
-      <MainNav items={siteConfig.mainNav} />
+
+      <MainNav />
 
       <div className="ml-auto flex gap-4">
         <ExpandableSearch />

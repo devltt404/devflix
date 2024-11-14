@@ -5,18 +5,14 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { MainNavItem } from "@/lib/definitions.ts";
+import { siteConfig } from "@/config/site.config";
 import Link from "next/link";
 
-type MainNavProps = {
-  items: MainNavItem[];
-};
-
-export default function MainNav({ items }: MainNavProps) {
+export default function MainNav() {
   return (
     <NavigationMenu className="hidden lg:flex">
       <NavigationMenuList>
-        {items.map(
+        {siteConfig.mainNav.map(
           (item) =>
             item.href && (
               <NavigationMenuItem key={item.title}>

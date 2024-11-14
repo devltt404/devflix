@@ -37,7 +37,7 @@ export default function ExpandableSearch() {
       <Input
         ref={inputRef}
         className={cn(
-          "transition-expanding-input",
+          "transition-[width] duration-200 ease-out",
           isOpen ? "w-56 pl-10" : "w-0",
         )}
         placeholder="Search a movie..."
@@ -46,9 +46,10 @@ export default function ExpandableSearch() {
       />
       <Button
         aria-label="Search"
-        variant={isOpen ? "ghost" : "outline"}
+        variant="outline"
         className={cn(
-          "transition-expanding-input-button absolute top-1/2 -translate-y-1/2",
+          "absolute top-1/2 -translate-y-1/2",
+          isOpen && "border-none bg-transparent",
         )}
         size="icon"
         onClick={() => {

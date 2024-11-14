@@ -1,7 +1,11 @@
 import { cn } from "@/lib/utils/helper.util";
 import { StarIcon } from "lucide-react";
 
-export default function MovieScore({ score }: { score: number }) {
+interface MovieScoreProps {
+  score: number;
+}
+
+export default function MovieScore({ score }: MovieScoreProps) {
   return (
     <div className="flex items-center gap-1">
       <StarIcon className="h-4 w-4 text-yellow-400" fill="rgb(250,204,21)" />

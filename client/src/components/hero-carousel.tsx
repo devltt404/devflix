@@ -9,11 +9,15 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { SimpleMovie } from "@/lib/definitions.ts";
-import { getTmdbImg, slugify } from "@/lib/utils/helper.util";
+import { getTmdbPoster, slugify } from "@/lib/utils/helper.util";
 import { Info, Play } from "lucide-react";
 import Link from "next/link";
 
-export default function HeroCarousel({ movies }: { movies?: SimpleMovie[] }) {
+interface HeroCarouselProps {
+  movies?: SimpleMovie[];
+}
+
+export default function HeroCarousel({ movies }: HeroCarouselProps) {
   return (
     <Carousel className="w-full" opts={{ loop: true }}>
       <CarouselContent>
@@ -25,7 +29,7 @@ export default function HeroCarousel({ movies }: { movies?: SimpleMovie[] }) {
                   <div
                     className="absolute inset-x-0 h-full bg-opacity-85 bg-cover bg-center bg-no-repeat"
                     style={{
-                      backgroundImage: `url(${getTmdbImg(
+                      backgroundImage: `url(${getTmdbPoster(
                         movie.backdrop_path,
                       )})`,
                     }}

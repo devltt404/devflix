@@ -2,7 +2,11 @@
 import { PlayIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const LazyYouTubeIframe = ({ videoId }: { videoId: string }) => {
+interface LazyYouTubeIframeProps {
+  videoId: string;
+}
+
+const LazyYouTubeIframe = ({ videoId }: LazyYouTubeIframeProps) => {
   const [isIframeLoaded, setIframeLoaded] = useState(false);
   const [thumbnailUrl, setThumbnailUrl] = useState(
     `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
