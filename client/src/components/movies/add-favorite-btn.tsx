@@ -37,6 +37,7 @@ const AddFavoriteBtn = ({ movieId, isFavorite }: AddFavoriteBtnProps) => {
       size="icon"
       variant="ghost"
       onClick={handleAddFavorite}
+      className="hover:bg-accent-foreground dark:hover:bg-accent"
     >
       <Bookmark className={cn("text-white", displayFavorite && "fill-white")} />
     </Button>
