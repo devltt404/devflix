@@ -5,11 +5,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { SimpleMovie } from "@/lib/definitions";
+import { Movie } from "@prisma/client";
 import MovieCard from "./movie-card";
 
 interface MoviesCarouselProps {
-  movies: SimpleMovie[];
+  movies: Movie[];
 }
 
 export function MoviesCarousel({ movies }: MoviesCarouselProps) {

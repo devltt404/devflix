@@ -1,3 +1,4 @@
+import { Movie } from "@prisma/client";
 import React from "react";
 
 export interface NavItem {
@@ -23,37 +24,18 @@ export type SiteConfig = {
 
 export type MoviesSection = {
   title: string;
-  movies?: SimpleMovie[];
+  movies?: Movie[];
 };
 
 export type PaginationRequestParams = {
   page?: number;
 };
 
-export type PaginationResponse<T> = {
-  data: T[];
-  page: number;
-  page_size: number;
-  total_pages: number;
-  count: number;
-};
-
-export type TMDBPaginationResponse<TData> = {
+export type PaginationResponse<TData> = {
   page: number;
   total_pages: number;
   total_results: number;
   results: TData;
-};
-
-export type SimpleMovie = {
-  id: string;
-  title: string;
-  vote_average: number;
-  release_date: Date;
-  runtime: number;
-  backdrop_path: string;
-  genres: string[];
-  overview?: string;
 };
 
 export type DetailedMovie = {

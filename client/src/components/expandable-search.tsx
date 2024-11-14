@@ -1,5 +1,5 @@
 import useOnClickOutside from "@/hooks/use-on-click-outside";
-import { cn } from "@/lib/utils/helper.util";
+import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";

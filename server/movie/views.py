@@ -20,36 +20,6 @@ class MovieViewSet(viewsets.ViewSet):
     queryset = Movie.objects.all()
     serializer_class = MovieSerializer
 
-    @method_decorator(cache_page(60))  # Cache the response for 60 seconds
-    def list(self, request):
-        # Get pagination parameters
-        page_number = request.GET.get("page", 1)
-        page_size = int(request.GET.get("limit", 10))
-
-        # Get sorting parameters
-        sort_by = request.GET.get("sortBy", "release_date")
-        order = request.GET.get("order", "asc")
-
-        if order == "desc":
-            sort_by = "-" + sort_by
-
-        movies = self.queryset.order_by(sort_by)
-
-        paginator = Paginator(movies, page_size)
-        page_obj = paginator.get_page(page_number)
-
-        movies_list = list(page_obj.object_list.values())
-
-        response_data = {
-            "data": movies_list,
-            "page": page_obj.number,
-            "page_size": len(movies_list),
-            "total_pages": paginator.num_pages,
-            "count": paginator.count,
-        }
-
-        return JsonResponse(response_data)
-
     @action(detail=True, methods=["get"], url_path="recommend")
     def recommend(self, request, pk=None):
         limit = request.GET.get("limit", 5)

@@ -2,17 +2,36 @@
 
 import ExpandableSearch from "@/components/expandable-search";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils/helper.util";
+import { cn } from "@/lib/utils";
 import { Moon, Sun } from "lucide-react";
+import { Session } from "next-auth";
+import { signIn, signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import Logo from "../logo";
 import MainNav from "./main-nav";
 
-export default function SiteHeader() {
+interface SiteHeaderProps {
+  session?: Session | null;
+}
+
+export default function SiteHeader({ session }: SiteHeaderProps) {
+  const pathname = usePathname();
   const { setTheme, theme } = useTheme();
-  const [isScrolled, setIsScrolled] = useState(false);
+
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+  const handleAuthBtnClick = useCallback(() => {
+    if (session) {
+      signOut();
+    } else {
+      signIn(undefined, {
+        callbackUrl: pathname,
+      });
+    }
+  }, [pathname, session]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,7 +82,9 @@ export default function SiteHeader() {
           <span className="sr-only">Toggle theme</span>
         </Button>
 
-        <Button className="hidden md:block">Sign In</Button>
+        <Button onClick={handleAuthBtnClick}>
+          {session ? "Sign out" : "Sign in"}
+        </Button>
       </div>
     </header>
   );

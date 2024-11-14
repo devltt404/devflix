@@ -1,6 +1,6 @@
 import QueryPagination from "@/components/query-pagination";
-import { getTmdbProfile } from "@/lib/utils/helper.util";
-import { getPeople } from "@/lib/utils/requests.util";
+import { getPeople } from "@/lib/data/person";
+import { getTmdbProfile } from "@/lib/utils";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -20,16 +20,16 @@ const PeoplePage = async ({ searchParams }: PeoplePageProps) => {
 
   return (
     <div className="container-area animate-page-enter">
-      <h1 className="heading mb-10">People</h1>
+      <h1 className="heading">People</h1>
 
-      <div className="mb-8 grid grid-cols-2 justify-between gap-x-6 sm:gap-x-14 gap-y-8 sm:grid-cols-[repeat(auto-fill,minmax(140px,1fr))] lg:gap-x-20">
+      <div className="mb-8 grid grid-cols-2 justify-between gap-x-6 gap-y-8 sm:grid-cols-[repeat(auto-fill,minmax(140px,1fr))] sm:gap-x-14 lg:gap-x-20">
         {people.map((person) => (
           <div key={person.id} className="text-center">
             <img
               loading="lazy"
               src={getTmdbProfile(person.profile_path, person.gender)}
               alt={person.name}
-              className="mb-3 aspect-square w-full rounded-full object-cover ring ring-primary"
+              className="mb-3 aspect-square w-full rounded-full object-cover outline"
             />
 
             <p className="text-lg font-semibold sm:text-xl">{person.name}</p>

@@ -58,5 +58,5 @@ body {
 }
 
 .heading {
-  @apply text-4xl font-bold;
+  @apply mb-10 text-4xl font-bold;
 }

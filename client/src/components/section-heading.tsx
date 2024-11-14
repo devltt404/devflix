@@ -1,5 +1,5 @@
 "use client";
-import { cn } from "@/lib/utils/helper.util";
+import { cn } from "@/lib/utils";
 import { useEffect, useRef, useState } from "react";
 
 interface SectionHeadingProps {

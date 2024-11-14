@@ -1,6 +1,7 @@
-from django.apps import AppConfig
 import os
 import pickle
+
+from django.apps import AppConfig
 
 
 class MovieConfig(AppConfig):

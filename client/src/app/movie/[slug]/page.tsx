@@ -10,14 +10,14 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
+import { getMovie, getRecommendMovies } from "@/lib/data/movie";
 import { FetchError } from "@/lib/errors";
 import {
   getTmdbPoster,
   getTmdbProfile,
   isNonEmptyArray,
   unSlugify,
-} from "@/lib/utils/helper.util";
-import { getMovie, getRecommendMovies } from "@/lib/utils/requests.util";
+} from "@/lib/utils";
 import { Clock } from "lucide-react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -139,7 +139,7 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
                       className="flex basis-auto select-none items-center gap-4 pl-14"
                     >
                       <img
-                        className="aspect-square w-24 rounded-full object-cover ring-2 ring-primary"
+                        className="aspect-square w-24 rounded-full object-cover outline"
                         src={getTmdbProfile(person.profile_path, person.gender)}
                       />
                       <div>

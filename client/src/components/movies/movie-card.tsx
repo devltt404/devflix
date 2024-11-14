@@ -1,21 +1,23 @@
-"use client";
-
-import { SimpleMovie } from "@/lib/definitions";
-import { getTmdbPoster, slugify } from "@/lib/utils/helper.util";
+import { getIsUserFavorite } from "@/lib/data/user";
+import { getTmdbPoster, slugify } from "@/lib/utils";
+import { Movie } from "@prisma/client";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
+import AddFavoriteBtn from "./add-favorite-btn";
 import MovieScore from "./movie-score";
 
 interface MovieCardProps {
-  movie: SimpleMovie;
+  movie: Movie;
 }
 
-export default function MovieCard({ movie }: MovieCardProps) {
+export default async function MovieCard({ movie }: MovieCardProps) {
+  const isFavorite = await getIsUserFavorite(movie.id);
+
   return (
     <Link href={`/movie/${slugify(movie.title)}-${movie.id}`}>
-      <div className="relative w-[20rem] sm:w-[22rem]">
+      <div className="relative aspect-video w-[20rem] sm:w-[22rem]">
         <img src={getTmdbPoster(movie.backdrop_path)} className="rounded-md" />
 
         <div className="group absolute inset-0 bottom-0 z-10 flex cursor-pointer flex-col justify-end rounded-sm bg-gradient-to-t from-black to-[rgba(0,0,0,0.1)] px-4 py-2 transition lg:opacity-0 lg:hover:opacity-100">
@@ -35,10 +37,13 @@ export default function MovieCard({ movie }: MovieCardProps) {
               {movie.runtime >= 60 ? `${Math.floor(movie.runtime / 60)}h` : ""}
               {movie.runtime % 60}m
               <Separator orientation="vertical" className="h-4 bg-gray-700" />
-              {new Date(movie.release_date).getFullYear()}
+              {new Date(movie.release_time).getFullYear()}
             </div>
           </div>
 
+          <div className="absolute right-3 top-4">
+            <AddFavoriteBtn isFavorite={isFavorite} movieId={movie.id} />
+          </div>
           <ArrowRight className="absolute bottom-6 right-4 h-6 w-6 text-white" />
         </div>
       </div>

@@ -1,6 +1,7 @@
 import SiteFooter from "@/components/layouts/site-footer";
 import SiteHeader from "@/components/layouts/site-header";
 import { ThemeProvider } from "@/components/theme-provider";
+import SessionWrapper from "@/components/wrappers/session-wrapper";
 import { Lato } from "next/font/google";
 import "./globals.css";
 
@@ -18,7 +19,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={font.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <SiteHeader />
+          <SessionWrapper>
+            <SiteHeader />
+          </SessionWrapper>
           <main className="bg-background">{children}</main>
           <SiteFooter />
         </ThemeProvider>

@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils/helper.util";
+import { cn } from "@/lib/utils";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -57,14 +57,14 @@ const Carousel = React.forwardRef<
       children,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [carouselRef, api] = useEmblaCarousel(
       {
         ...opts,
         axis: orientation === "horizontal" ? "x" : "y",
       },
-      plugins
+      plugins,
     );
     const [canScrollPrev, setCanScrollPrev] = React.useState(false);
     const [canScrollNext, setCanScrollNext] = React.useState(false);
@@ -98,7 +98,7 @@ const Carousel = React.forwardRef<
           scrollNext();
         }
       },
-      [scrollPrev, scrollNext]
+      [scrollPrev, scrollNext],
     );
 
     React.useEffect(() => {
@@ -150,7 +150,7 @@ const Carousel = React.forwardRef<
         </div>
       </CarouselContext.Provider>
     );
-  }
+  },
 );
 Carousel.displayName = "Carousel";
 
@@ -167,7 +167,7 @@ const CarouselContent = React.forwardRef<
         className={cn(
           "flex",
           orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
-          className
+          className,
         )}
         {...props}
       />
@@ -190,7 +190,7 @@ const CarouselItem = React.forwardRef<
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
         orientation === "horizontal" ? "pl-0" : "pt-4",
-        className
+        className,
       )}
       {...props}
     />
@@ -209,14 +209,14 @@ const CarouselPrevious = React.forwardRef<
       type="button"
       ref={ref}
       className={cn(
-        "group h-full bg-transparent transition  absolute left-0 top-0 hidden md:flex items-center px-3",
-        className
+        "group absolute left-0 top-0 hidden h-full items-center bg-transparent px-3 transition md:flex",
+        className,
       )}
       onClick={scrollPrev}
       disabled={!canScrollPrev}
       {...props}
     >
-      <ChevronLeft className="h-12 w-12 transition opacity-50 group-hover:group-enabled:opacity-100" />
+      <ChevronLeft className="h-12 w-12 opacity-50 transition group-hover:group-enabled:opacity-100" />
       <span className="sr-only">Previous slide</span>
     </button>
   );
@@ -234,14 +234,14 @@ const CarouselNext = React.forwardRef<
       type="button"
       ref={ref}
       className={cn(
-        "group h-full bg-transparent transition  absolute right-0 top-0 hidden md:flex items-center px-3",
-        className
+        "group absolute right-0 top-0 hidden h-full items-center bg-transparent px-3 transition md:flex",
+        className,
       )}
       onClick={scrollNext}
       disabled={!canScrollNext}
       {...props}
     >
-      <ChevronRight className="h-12 w-12 transition opacity-50 group-hover:group-enabled:opacity-100" />
+      <ChevronRight className="h-12 w-12 opacity-50 transition group-hover:group-enabled:opacity-100" />
       <span className="sr-only">Next slide</span>
     </button>
   );
@@ -256,11 +256,7 @@ const CarouselIndicator = React.forwardRef<
   const slideCount = api?.slideNodes().length || 0;
 
   return (
-    <div
-      ref={ref}
-      className={cn("absolute ", className)}
-      {...props}
-    >
+    <div ref={ref} className={cn("absolute", className)} {...props}>
       {Array.from({ length: slideCount }).map((_, index) => (
         <button
           key={index}
@@ -271,8 +267,8 @@ const CarouselIndicator = React.forwardRef<
         >
           <div
             className={cn(
-              "w-10 md:w-14 h-[2px] transition rounded-full mx-1",
-              index === currentSlide ? "bg-white" : "bg-zinc-600"
+              "mx-1 h-[2px] w-10 rounded-full transition md:w-14",
+              index === currentSlide ? "bg-white" : "bg-zinc-600",
             )}
           >
             <span className="sr-only">Jump to slide {index + 1}</span>

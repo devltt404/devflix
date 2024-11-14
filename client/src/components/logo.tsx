@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils/helper.util";
+import { cn } from "@/lib/utils";
 
 interface LogoProps {
   className?: string;
