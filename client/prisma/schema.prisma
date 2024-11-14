@@ -20,7 +20,6 @@ model Movie {
 
 generator client {
     provider = "prisma-client-js"
-    output   = "./generated/client"
 }
 
 model User {
