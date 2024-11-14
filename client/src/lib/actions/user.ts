@@ -1,10 +1,8 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/db";
 import { redirect } from "next/navigation";
 import { auth } from "../auth";
-
-const prisma = new PrismaClient();
 
 export async function addFavoriteMovie(movieId: number, requestUrl: string) {
   const session = await auth();
@@ -44,7 +42,9 @@ export async function removeFavoriteMovie(movieId: number, requestUrl: string) {
   const session = await auth();
 
   if (!session?.user.id) {
-    return redirect("/api/auth/signin?callbackUrl=" + encodeURIComponent(requestUrl));
+    return redirect(
+      "/api/auth/signin?callbackUrl=" + encodeURIComponent(requestUrl),
+    );
   }
 
   const movie = await prisma.movie.findUnique({
