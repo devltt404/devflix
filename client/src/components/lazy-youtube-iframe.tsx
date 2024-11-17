@@ -9,7 +9,7 @@ interface LazyYouTubeIframeProps {
 const LazyYouTubeIframe = ({ videoId }: LazyYouTubeIframeProps) => {
   const [isIframeLoaded, setIframeLoaded] = useState(false);
   const [thumbnailUrl, setThumbnailUrl] = useState(
-    `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+    `https://img.youtube.com/vi/${videoId}/0.jpg`,
   );
 
   useEffect(() => {

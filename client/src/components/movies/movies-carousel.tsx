@@ -25,7 +25,7 @@ export function MoviesCarousel({ movies }: MoviesCarouselProps) {
         {movies.map((movie) => (
           <CarouselItem key={movie.id} className="basis-auto">
             <div className="p-1">
-              <MovieCard movie={movie} />
+              <MovieCard className="w-[20rem] sm:w-[22rem]" movie={movie} />
             </div>
           </CarouselItem>
         ))}

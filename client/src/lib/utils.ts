@@ -10,9 +10,13 @@ export function getTmdbPoster(path: string) {
   return "https://image.tmdb.org/t/p/original" + path;
 }
 
+export function getTmdbThumb(path: string) {
+  return "https://image.tmdb.org/t/p/w500" + path;
+}
+
 export function getTmdbProfile(path?: string, gender: number = 1) {
   return path
-    ? "https://image.tmdb.org/t/p/w500" + path
+    ? "https://image.tmdb.org/t/p/w200" + path
     : gender === 2
       ? "https://avatar.iran.liara.run/public/7"
       : "https://avatar.iran.liara.run/public/53";

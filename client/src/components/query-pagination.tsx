@@ -7,7 +7,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import usePagination from "@/hooks/usePagination";
+import usePagination from "@/hooks/use-pagination";
 
 interface QueryPaginationProps {
   totalPages: number;

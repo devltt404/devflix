@@ -21,12 +21,12 @@ export async function getMovies({
   return movies;
 }
 
-export async function getMovie(id: string) {
+export async function getMovie(id: number) {
   return fetchTMDB<DetailedMovie>(
     `/movie/${id}?append_to_response=videos,credits`,
   );
 }
 
-export async function getRecommendMovies(id: string, limit: number) {
+export async function getRecommendMovies(id: number, limit: number) {
   return fetchServer<Movie[]>(`/movies/${id}/recommend?limit=${limit}`);
 }

@@ -1,24 +1,25 @@
-import { getIsUserFavorite } from "@/lib/data/user";
-import { getTmdbPoster, slugify } from "@/lib/utils";
+import { cn, getTmdbThumb, slugify } from "@/lib/utils";
 import { Movie } from "@prisma/client";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
 import { Separator } from "../ui/separator";
-import AddFavoriteBtn from "./add-favorite-btn";
 import MovieScore from "./movie-score";
 
 interface MovieCardProps {
   movie: Movie;
+  className?: string;
 }
 
-export default async function MovieCard({ movie }: MovieCardProps) {
-  const isFavorite = await getIsUserFavorite(movie.id);
-
+export default async function MovieCard({ movie, className }: MovieCardProps) {
   return (
     <Link href={`/movie/${slugify(movie.title)}-${movie.id}`}>
-      <div className="relative aspect-video w-[20rem] sm:w-[22rem]">
-        <img src={getTmdbPoster(movie.backdrop_path)} className="rounded-md" />
+      <div className={cn("relative aspect-video", className)}>
+        <img
+          src={getTmdbThumb(movie.backdrop_path)}
+          className="h-full w-full rounded-md object-cover"
+          alt="Movie Thumbnail"
+        />
 
         <div className="group absolute inset-0 bottom-0 z-10 flex cursor-pointer flex-col justify-end rounded-sm bg-gradient-to-t from-black to-[rgba(0,0,0,0.1)] px-4 py-2 transition lg:opacity-0 lg:hover:opacity-100">
           <div className="text-white transition lg:translate-y-6 lg:group-hover:translate-y-0">
@@ -41,12 +42,11 @@ export default async function MovieCard({ movie }: MovieCardProps) {
             </div>
           </div>
 
-          <div className="absolute right-3 top-4">
-            <AddFavoriteBtn isFavorite={isFavorite} movieId={movie.id} />
-          </div>
           <ArrowRight className="absolute bottom-6 right-4 h-6 w-6 text-white" />
         </div>
       </div>
+
+      <span className="sr-only">{movie.title}</span>
     </Link>
   );
 }

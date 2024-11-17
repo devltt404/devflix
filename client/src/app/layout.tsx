@@ -22,7 +22,7 @@ export default function RootLayout({
           <SessionWrapper>
             <SiteHeader />
           </SessionWrapper>
-          <main className="bg-background">{children}</main>
+          <main className="min-h-screen bg-background">{children}</main>
           <SiteFooter />
         </ThemeProvider>
       </body>

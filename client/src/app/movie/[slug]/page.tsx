@@ -1,4 +1,5 @@
 import LazyYouTubeIframe from "@/components/lazy-youtube-iframe";
+import AddFavoriteBtn from "@/components/movies/add-favorite-btn";
 import MovieDetailSection from "@/components/movies/movie-detail-section";
 import { MoviesCarousel } from "@/components/movies/movies-carousel";
 import { Badge } from "@/components/ui/badge";
@@ -11,10 +12,12 @@ import {
 } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
 import { getMovie, getRecommendMovies } from "@/lib/data/movie";
+import { getIsUserFavorite } from "@/lib/data/user";
 import { FetchError } from "@/lib/errors";
 import {
   getTmdbPoster,
   getTmdbProfile,
+  getTmdbThumb,
   isNonEmptyArray,
   unSlugify,
 } from "@/lib/utils";
@@ -40,10 +43,12 @@ export function generateMetadata({
 }
 
 const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
-  const id = slug.split("-").pop();
+  const id = parseInt(slug.split("-").pop() || "0");
   if (!id) return notFound();
 
   let movie, recommendedMovies;
+
+  const isFavorite = await getIsUserFavorite(id);
 
   try {
     [movie, recommendedMovies] = await Promise.all([
@@ -72,15 +77,15 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
       </div>
 
       <div className="container relative -mb-72 -translate-y-96 lg:-mb-20 lg:-translate-y-60">
-        <div className="mb-14 grid items-end gap-x-20 gap-y-14 lg:grid-cols-[20rem_1fr]">
+        <div className="order-1 mb-14 grid items-end gap-x-20 gap-y-8 lg:grid-cols-[20rem_1fr] lg:gap-y-6">
           <div className="mx-auto aspect-[3/4.5] w-[80%] shrink-0 sm:w-[55%] lg:w-full">
             <img
               className="h-full w-full object-cover"
-              src={getTmdbPoster(movie.poster_path)}
+              src={getTmdbThumb(movie.poster_path)}
             />
           </div>
 
-          <div className="flex flex-col">
+          <div className="order-3 flex flex-col">
             <div className="flex items-center">
               <p className="text-2xl font-semibold">
                 {movie.release_date.split("-")[0]}
@@ -126,6 +131,8 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
               </div>
             </div>
           </div>
+
+          <AddFavoriteBtn movieId={id} isFavorite={isFavorite} />
         </div>
 
         <div className="flex flex-col gap-14 md:gap-20">

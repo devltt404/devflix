@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Moon, Sun } from "lucide-react";
 import { Session } from "next-auth";
-import { signIn, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import Logo from "../logo";
 import MainNav from "./main-nav";
@@ -18,6 +18,7 @@ interface SiteHeaderProps {
 }
 
 export default function SiteHeader({ session }: SiteHeaderProps) {
+  const router = useRouter();
   const pathname = usePathname();
   const { setTheme, theme } = useTheme();
 
@@ -27,9 +28,10 @@ export default function SiteHeader({ session }: SiteHeaderProps) {
     if (session) {
       signOut();
     } else {
-      signIn(undefined, {
-        callbackUrl: pathname,
-      });
+      router.push(
+        "/auth/signin" +
+          (pathname ? `?callbackUrl=${encodeURIComponent(pathname)}` : ""),
+      );
     }
   }, [pathname, session]);
 
