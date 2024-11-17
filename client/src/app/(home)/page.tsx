@@ -1,8 +1,8 @@
 import HeroCarousel from "@/components/hero-carousel";
 import { MoviesCarousel } from "@/components/movies/movies-carousel";
 import SectionHeading from "@/components/section-heading";
-import { getMovies } from "@/lib/data/movie";
 import { MoviesSection } from "@/lib/definitions.ts";
+import { getMovies } from "@/lib/fetchers/movie";
 import { isNonEmptyArray } from "@/lib/utils";
 import { Metadata } from "next";
 

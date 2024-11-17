@@ -1,7 +1,10 @@
+"use server";
+
 import prisma from "@/db";
+import { Movie } from "@prisma/client";
 import { auth } from "../auth";
 
-export async function getIsUserFavorite(movieId: number) {
+export async function getIsUserFavorite(movieId: Movie["id"]) {
   const session = await auth();
 
   if (!session?.user.id) return false;

@@ -27,11 +27,11 @@ export type MoviesSection = {
   movies?: Movie[];
 };
 
-export type PaginationRequestParams = {
+export type TMDBPaginationRequestParams = {
   page?: number;
 };
 
-export type PaginationResponse<TData> = {
+export type TMDBPaginationResponse<TData> = {
   page: number;
   total_pages: number;
   total_results: number;

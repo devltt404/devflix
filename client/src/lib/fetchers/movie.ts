@@ -1,3 +1,5 @@
+"use server";
+
 import prisma from "@/db";
 import { DetailedMovie } from "@/lib/definitions";
 import { Movie } from "@prisma/client";
@@ -12,16 +14,15 @@ export async function getMovies({
   limit: number;
   order: "asc" | "desc";
 }) {
-  const movies = await prisma.movie.findMany({
+  return prisma.movie.findMany({
     take: limit,
     orderBy: {
       [sortBy]: order,
     },
   });
-  return movies;
 }
 
-export async function getMovie(id: number) {
+export async function getMovie(id: Movie["id"]) {
   return fetchTMDB<DetailedMovie>(
     `/movie/${id}?append_to_response=videos,credits`,
   );

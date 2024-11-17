@@ -3,7 +3,7 @@
 import { addFavoriteMovie, removeFavoriteMovie } from "@/lib/actions/user";
 import { cn } from "@/lib/utils";
 import { Bookmark } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { signIn } from "next-auth/react";
 import React from "react";
 import { Button } from "../ui/button";
 
@@ -13,13 +13,16 @@ interface AddFavoriteBtnProps {
 }
 
 const AddFavoriteBtn = ({ movieId, isFavorite }: AddFavoriteBtnProps) => {
-  const pathname = usePathname();
-
   const handleAddFavorite = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await (isFavorite
-      ? removeFavoriteMovie(movieId, pathname)
-      : addFavoriteMovie(movieId, pathname));
+
+    const res = await (isFavorite
+      ? removeFavoriteMovie(movieId)
+      : addFavoriteMovie(movieId));
+
+    if (res.status === 401) {
+      signIn();
+    }
   };
 
   return (

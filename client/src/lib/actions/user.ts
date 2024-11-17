@@ -1,15 +1,17 @@
 "use server";
 
 import prisma from "@/db";
+import { Movie } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { auth } from "../auth";
 
-export async function addFavoriteMovie(movieId: number, requestUrl: string) {
+export async function addFavoriteMovie(movieId: Movie["id"]) {
   const session = await auth();
 
   if (!session?.user.id) {
-    redirect("/api/auth/signin?callbackUrl=" + encodeURIComponent(requestUrl));
+    return {
+      status: 401,
+    };
   }
 
   const movie = await prisma.movie.findUnique({
@@ -32,7 +34,7 @@ export async function addFavoriteMovie(movieId: number, requestUrl: string) {
       },
     });
 
-    revalidatePath("/movie/[slug]", "page");
+    revalidatePath("/favorites", "page");
     return { success: true, message: "Movie added to favorites." };
   } catch (error) {
     console.error(error);
@@ -40,13 +42,13 @@ export async function addFavoriteMovie(movieId: number, requestUrl: string) {
   }
 }
 
-export async function removeFavoriteMovie(movieId: number, requestUrl: string) {
+export async function removeFavoriteMovie(movieId: Movie["id"]) {
   const session = await auth();
 
   if (!session?.user.id) {
-    return redirect(
-      "/api/auth/signin?callbackUrl=" + encodeURIComponent(requestUrl),
-    );
+    return {
+      status: 401,
+    };
   }
 
   const movie = await prisma.movie.findUnique({
@@ -69,7 +71,7 @@ export async function removeFavoriteMovie(movieId: number, requestUrl: string) {
       },
     });
 
-    revalidatePath("/movie/[slug]", "page");
+    revalidatePath("/favorites", "page");
     return { success: true, message: "Movie removed from favorites." };
   } catch (error) {
     console.error(error);

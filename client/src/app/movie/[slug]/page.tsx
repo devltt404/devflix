@@ -11,8 +11,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
-import { getMovie, getRecommendMovies } from "@/lib/data/movie";
-import { getIsUserFavorite } from "@/lib/data/user";
+import { getMovie, getRecommendMovies } from "@/lib//fetchers/movie";
+import { getIsUserFavorite } from "@/lib//fetchers/user";
 import { FetchError } from "@/lib/errors";
 import {
   getTmdbPoster,
@@ -46,14 +46,13 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
   const id = parseInt(slug.split("-").pop() || "0");
   if (!id) return notFound();
 
-  let movie, recommendedMovies;
-
-  const isFavorite = await getIsUserFavorite(id);
+  let movie, recommendedMovies, isFavorite;
 
   try {
-    [movie, recommendedMovies] = await Promise.all([
+    [movie, recommendedMovies, isFavorite] = await Promise.all([
       getMovie(id),
       getRecommendMovies(id, 10),
+      getIsUserFavorite(id),
     ]);
   } catch (error) {
     if (error instanceof FetchError && error.statusCode === 404) {

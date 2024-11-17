@@ -7,8 +7,14 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { auth } from "@/lib/auth";
+import { Metadata } from "next";
 import { getProviders } from "next-auth/react";
 import { redirect } from "next/navigation";
+
+export const metadata: Metadata = {
+  title: `Sign in | ${process.env.NEXT_PUBLIC_APP_NAME}`,
+  description: `Sign in to ${process.env.NEXT_PUBLIC_APP_NAME}.`,
+};
 
 const SigninPage = async () => {
   const session = await auth();

@@ -1,10 +1,10 @@
 import QueryPagination from "@/components/query-pagination";
-import { getPeople } from "@/lib/data/person";
+import { getPeople } from "@/lib//fetchers/person";
 import { getTmdbProfile } from "@/lib/utils";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "People",
+  title: `People | ${process.env.NEXT_PUBLIC_APP_NAME}`,
   description: "A list of popular actors.",
   keywords: ["people", "actors", "celebrities", "actresses"],
 };
