@@ -8,7 +8,7 @@ model Movie {
     title         String   @db.VarChar(255)
     vote_average  Float
     vote_count    Int
-    release_time  DateTime
+    release_date  DateTime
     runtime       Int
     backdrop_path String   @db.VarChar(255)
     overview      String   @db.Text

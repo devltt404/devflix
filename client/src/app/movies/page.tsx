@@ -19,7 +19,7 @@ const MoviesPage = async ({ searchParams }: MoviesPageProps) => {
     page,
     total_pages,
   } = await getMovies({
-    sortBy: "release_time",
+    sortBy: "release_date",
     limit: 12,
     order: "desc",
     page: parseInt(searchParams.page || "1"),

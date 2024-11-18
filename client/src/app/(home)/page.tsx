@@ -31,7 +31,7 @@ export default async function Home() {
         order: "desc",
       }),
       getMovies({
-        sortBy: "release_time",
+        sortBy: "release_date",
         limit: 10,
         order: "desc",
       }),

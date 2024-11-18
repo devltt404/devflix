@@ -38,7 +38,7 @@ export default async function MovieCard({ movie, className }: MovieCardProps) {
               {movie.runtime >= 60 ? `${Math.floor(movie.runtime / 60)}h` : ""}
               {movie.runtime % 60}m
               <Separator orientation="vertical" className="h-4 bg-gray-700" />
-              {new Date(movie.release_time).getFullYear()}
+              {new Date(movie.release_date).getFullYear()}
             </div>
           </div>
 
