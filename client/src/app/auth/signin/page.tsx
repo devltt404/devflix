@@ -16,11 +16,16 @@ export const metadata: Metadata = {
   description: `Sign in to ${process.env.NEXT_PUBLIC_APP_NAME}.`,
 };
 
-const SigninPage = async () => {
+interface SigninPageProps {
+  searchParams: Promise<{ callbackUrl?: string }>;
+}
+
+const SigninPage = async ({ searchParams }: SigninPageProps) => {
   const session = await auth();
+  const { callbackUrl } = await searchParams;
 
   if (session) {
-    return redirect("/");
+    return redirect(callbackUrl || "/");
   }
 
   const providers = await getProviders();

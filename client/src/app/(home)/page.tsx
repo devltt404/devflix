@@ -1,9 +1,10 @@
 import HeroCarousel from "@/components/hero-carousel";
 import { MoviesCarousel } from "@/components/movies/movies-carousel";
 import SectionHeading from "@/components/section-heading";
-import { MoviesSection } from "@/lib/definitions.ts";
+import { MoviesSection, PaginationResponse } from "@/lib/definitions.ts";
 import { getMovies } from "@/lib/fetchers/movie";
 import { isNonEmptyArray } from "@/lib/utils";
+import { Movie } from "@prisma/client";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -22,24 +23,25 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  let topRated, latest, popular;
-  [topRated, latest, popular] = await Promise.all([
-    getMovies({
-      sortBy: "vote_average",
-      limit: 10,
-      order: "desc",
-    }),
-    getMovies({
-      sortBy: "release_time",
-      limit: 10,
-      order: "desc",
-    }),
-    getMovies({
-      sortBy: "popularity",
-      limit: 5,
-      order: "desc",
-    }),
-  ]);
+  let [topRated, latest, popular] = (
+    await Promise.all([
+      getMovies({
+        sortBy: "vote_average",
+        limit: 10,
+        order: "desc",
+      }),
+      getMovies({
+        sortBy: "release_time",
+        limit: 10,
+        order: "desc",
+      }),
+      getMovies({
+        sortBy: "popularity",
+        limit: 5,
+        order: "desc",
+      }),
+    ])
+  ).map((res: PaginationResponse<Movie[]>) => res.results);
 
   const moviesSections: MoviesSection[] = [
     { title: "Top Rated", movies: topRated },

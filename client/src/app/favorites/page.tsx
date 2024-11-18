@@ -1,4 +1,4 @@
-import MovieCard from "@/components/movies/movie-card";
+import MoviesGrid from "@/components/movies/movies-grid";
 import { getUserFavorites } from "@/lib//fetchers/user";
 import { Metadata } from "next";
 
@@ -15,11 +15,7 @@ const FavoritesPage = async () => {
       <h1 className="heading">Favorites</h1>
 
       {favorites.length ? (
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] justify-between gap-8">
-          {favorites.map((movie) => (
-            <MovieCard key={movie.id} movie={movie} />
-          ))}
-        </div>
+        <MoviesGrid movies={favorites} />
       ) : (
         <p>You don't have any favorite movies.</p>
       )}

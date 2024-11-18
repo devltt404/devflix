@@ -1,3 +1,6 @@
+import MoviesGrid from "@/components/movies/movies-grid";
+import QueryPagination from "@/components/query-pagination";
+import { getMovies } from "@/lib/fetchers/movie";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -6,13 +9,28 @@ export const metadata: Metadata = {
   keywords: ["movies", "films", "cinema", "blockbusters"],
 };
 
-const MoviesPage = () => {
+interface MoviesPageProps {
+  searchParams: Record<string, string>;
+}
+
+const MoviesPage = async ({ searchParams }: MoviesPageProps) => {
+  const {
+    results: movies,
+    page,
+    total_pages,
+  } = await getMovies({
+    sortBy: "release_time",
+    limit: 12,
+    order: "desc",
+    page: parseInt(searchParams.page || "1"),
+  });
+
   return (
     <div className="container-area h-screen animate-page-enter">
-      <h1 className="heading">Movies</h1>
-      <p className="text-lg">
-        This page is under construction. Please check back later.
-      </p>
+      <h1 className="heading">New Movies</h1>
+      <MoviesGrid movies={movies} />
+      <div className="my-10" />
+      <QueryPagination totalPages={total_pages} page={page} />
     </div>
   );
 };

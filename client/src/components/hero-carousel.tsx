@@ -60,6 +60,7 @@ export default function HeroCarousel({ movies }: HeroCarouselProps) {
                       >
                         <Link
                           href={`/movie/${slugify(movie.title)}-${movie.id}`}
+                          aria-label={`Watch ${movie.title} trailer`}
                         >
                           <Play className="h-[1.2rem] w-[1.2rem] transition group-hover:fill-white group-hover:text-white" />
                           Watch Trailer
@@ -73,6 +74,7 @@ export default function HeroCarousel({ movies }: HeroCarouselProps) {
                       >
                         <Link
                           href={`/movie/${slugify(movie.title)}-${movie.id}`}
+                          aria-label={`Watch ${movie.title} trailer`}
                         >
                           <Info className="h-[1.2rem] w-[1.2rem] transition" />
                           More Info

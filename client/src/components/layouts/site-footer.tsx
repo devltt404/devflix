@@ -52,6 +52,7 @@ export default function SiteFooter() {
                       className="text-muted-foreground hover:text-black dark:hover:text-white"
                     >
                       <child.icon />
+                      <span className="sr-only">{child.title} profile</span>
                     </a>
                   </li>
                 ),

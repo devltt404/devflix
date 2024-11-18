@@ -31,7 +31,7 @@ export type TMDBPaginationRequestParams = {
   page?: number;
 };
 
-export type TMDBPaginationResponse<TData> = {
+export type PaginationResponse<TData> = {
   page: number;
   total_pages: number;
   total_results: number;
