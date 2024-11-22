@@ -1,0 +1,16 @@
+services:
+  postgresql:
+    image: postgres:15.9-alpine
+    container_name: devflix-postgres
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      POSTGRES_USER: "${DB_USER}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+      POSTGRES_DB: "${DB_NAME}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init-client-db.sql:/docker-entrypoint-initdb.d/init-client-db.sql
+
+volumes:
+  pgdata:
