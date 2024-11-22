@@ -39,6 +39,7 @@ jobs:
           cat <<EOF > .env
           ALLOWED_HOSTS=${{ vars.ALLOWED_HOSTS }}
           URL_PREFIX=${{ vars.URL_PREFIX }}
+          SECRET_KEY=${{ secrets.SECRET_KEY }}
 
           TMDB_API_KEY=${{ secrets.TMDB_API_KEY }}
 
