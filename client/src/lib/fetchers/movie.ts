@@ -43,5 +43,15 @@ export async function getMovie(id: Movie["id"]) {
 }
 
 export async function getRecommendMovies(id: number, limit: number) {
-  return fetchServer<Movie[]>(`/movies/${id}/recommend?limit=${limit}`);
+  const recommendIds = await fetchServer<Movie["id"][]>(
+    `/movies/${id}/recommend?limit=${limit}`,
+  );
+
+  return prisma.movie.findMany({
+    where: {
+      id: {
+        in: recommendIds,
+      },
+    },
+  });
 }

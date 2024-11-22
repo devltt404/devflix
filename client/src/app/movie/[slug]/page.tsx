@@ -1,7 +1,7 @@
 import LazyYouTubeIframe from "@/components/lazy-youtube-iframe";
 import AddFavoriteBtn from "@/components/movies/add-favorite-btn";
 import MovieDetailSection from "@/components/movies/movie-detail-section";
-import { MoviesCarousel } from "@/components/movies/movies-carousel";
+import RecommendedMovies from "@/components/movies/recommended-movies";
 import { Badge } from "@/components/ui/badge";
 import {
   Carousel,
@@ -11,7 +11,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
-import { getMovie, getRecommendMovies } from "@/lib//fetchers/movie";
+import { getMovie } from "@/lib//fetchers/movie";
 import { getIsUserFavorite } from "@/lib//fetchers/user";
 import { FetchError } from "@/lib/errors";
 import {
@@ -24,6 +24,7 @@ import {
 import { Clock } from "lucide-react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 interface MoviePageProps {
   params: {
@@ -46,12 +47,11 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
   const id = parseInt(slug.split("-").pop() || "0");
   if (!id) return notFound();
 
-  let movie, recommendedMovies, isFavorite;
+  let movie, isFavorite;
 
   try {
-    [movie, recommendedMovies, isFavorite] = await Promise.all([
+    [movie, isFavorite] = await Promise.all([
       getMovie(id),
-      getRecommendMovies(id, 10),
       getIsUserFavorite(id),
     ]);
   } catch (error) {
@@ -191,11 +191,9 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
             </MovieDetailSection>
           )}
 
-          {isNonEmptyArray(recommendedMovies) && (
-            <MovieDetailSection title="Related Movies">
-              <MoviesCarousel movies={recommendedMovies} />
-            </MovieDetailSection>
-          )}
+          <Suspense>
+            <RecommendedMovies id={id} />
+          </Suspense>
         </div>
       </div>
     </div>
