@@ -10,13 +10,12 @@ class MovieConfig(AppConfig):
 
     def ready(self):
         module_dir = os.path.dirname(__file__)
-        models_path = os.path.join(module_dir, "models")
+        models_path = os.path.join(module_dir, "ml-models")
 
         # Load the movies and similarity matrix
         try:
             with open(os.path.join(models_path, "similarity.pkl"), "rb") as f:
                 self.similarity = pickle.load(f)
         except Exception as e:
-            print(f"Errors when loading models: {e}")
             self.movies = None
             self.similarity = None

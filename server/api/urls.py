@@ -1,13 +1,13 @@
-from django.contrib import admin
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from movie.views import MovieViewSet
 import os
 
-router = DefaultRouter()
-router.register(r"movies", MovieViewSet, basename="movie")
+from django.contrib import admin
+from django.urls import include, path
+from movie.urls import urlpatterns as movie_urlpatterns
+from movie.views import RecommendMovies  # Import the updated view
+
+base_path = os.getenv("URL_PREFIX", "api/v1")
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path(f"{os.getenv('URL_PREFIX', 'api/v1')}/", include(router.urls)),
+    path(f"{base_path}/movies/", include("movie.urls")),
 ]
