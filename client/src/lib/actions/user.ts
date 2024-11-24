@@ -2,7 +2,6 @@
 
 import prisma from "@/db";
 import { Movie } from "@prisma/client";
-import { revalidatePath } from "next/cache";
 import { auth } from "../auth";
 
 export async function addFavoriteMovie(movieId: Movie["id"]) {
@@ -34,7 +33,6 @@ export async function addFavoriteMovie(movieId: Movie["id"]) {
       },
     });
 
-    revalidatePath("/favorites", "page");
     return { success: true, message: "Movie added to favorites." };
   } catch (error) {
     console.error(error);
@@ -71,7 +69,6 @@ export async function removeFavoriteMovie(movieId: Movie["id"]) {
       },
     });
 
-    revalidatePath("/favorites", "page");
     return { success: true, message: "Movie removed from favorites." };
   } catch (error) {
     console.error(error);

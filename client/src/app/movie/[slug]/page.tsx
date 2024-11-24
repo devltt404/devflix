@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
 import { getMovie } from "@/lib//fetchers/movie";
-import { getIsUserFavorite } from "@/lib//fetchers/user";
 import { FetchError } from "@/lib/errors";
 import {
   getTmdbPoster,
@@ -47,13 +46,10 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
   const id = parseInt(slug.split("-").pop() || "0");
   if (!id) return notFound();
 
-  let movie, isFavorite;
+  let movie;
 
   try {
-    [movie, isFavorite] = await Promise.all([
-      getMovie(id),
-      getIsUserFavorite(id),
-    ]);
+    movie = await getMovie(id);
   } catch (error) {
     if (error instanceof FetchError && error.statusCode === 404) {
       return notFound();
@@ -131,7 +127,7 @@ const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
             </div>
           </div>
 
-          <AddFavoriteBtn movieId={id} isFavorite={isFavorite} />
+          <AddFavoriteBtn movieId={id} />
         </div>
 
         <div className="flex flex-col gap-14 md:gap-20">
