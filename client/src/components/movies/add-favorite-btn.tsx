@@ -24,13 +24,12 @@ const AddFavoriteBtn = ({ movieId }: AddFavoriteBtnProps) => {
       ? removeFavoriteMovie(movieId)
       : addFavoriteMovie(movieId));
 
-    setLoading(false);
-
     if (res.status === 401) {
       signIn();
+    } else {
+      setLoading(false);
+      setIsFavorite(!isFavorite);
     }
-
-    setIsFavorite(!isFavorite);
   };
 
   useEffect(() => {
