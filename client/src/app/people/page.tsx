@@ -10,12 +10,15 @@ export const metadata: Metadata = {
 };
 
 interface PeoplePageProps {
-  searchParams: Record<string, string>;
+  searchParams: Promise<{
+    page: string;
+  }>;
 }
 
 const PeoplePage = async ({ searchParams }: PeoplePageProps) => {
+  const { page } = await searchParams;
   const { results: people, total_pages } = await getPeople({
-    page: parseInt(searchParams.page || "1"),
+    page: parseInt(page || "1"),
   });
 
   return (
@@ -40,10 +43,7 @@ const PeoplePage = async ({ searchParams }: PeoplePageProps) => {
         ))}
       </div>
 
-      <QueryPagination
-        totalPages={total_pages}
-        page={parseInt(searchParams.page || "1")}
-      />
+      <QueryPagination totalPages={total_pages} page={parseInt(page || "1")} />
     </div>
   );
 };

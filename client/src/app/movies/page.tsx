@@ -10,10 +10,13 @@ export const metadata: Metadata = {
 };
 
 interface MoviesPageProps {
-  searchParams: Record<string, string>;
+  searchParams: Promise<{
+    page: string;
+  }>;
 }
 
 const MoviesPage = async ({ searchParams }: MoviesPageProps) => {
+  const { page: pageStr } = await searchParams;
   const {
     results: movies,
     page,
@@ -22,7 +25,7 @@ const MoviesPage = async ({ searchParams }: MoviesPageProps) => {
     sortBy: "release_date",
     limit: 12,
     order: "desc",
-    page: parseInt(searchParams.page || "1"),
+    page: parseInt(pageStr || "1"),
   });
 
   return (
