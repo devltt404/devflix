@@ -1,5 +1,5 @@
+import { IMovieCard } from "@/lib/definitions";
 import { cn, getTmdbThumb, slugify } from "@/lib/utils";
-import { Movie } from "@prisma/client";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
@@ -7,7 +7,7 @@ import { Separator } from "../ui/separator";
 import MovieScore from "./movie-score";
 
 interface MovieCardProps {
-  movie: Movie;
+  movie: IMovieCard;
   className?: string;
 }
 

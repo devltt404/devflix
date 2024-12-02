@@ -142,3 +142,8 @@ export type SimplePerson = {
   popularity: number;
   profile_path: string;
 };
+
+export type IMovieCard = Omit<
+  Movie,
+  "overview" | "vote_count" | "popularity" | "poster_path"
+>;
