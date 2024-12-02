@@ -26,23 +26,29 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 interface MoviePageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 }
 
-export function generateMetadata({
-  params: { slug },
-}: MoviePageProps): Metadata {
+export async function generateMetadata({
+  params,
+}: MoviePageProps): Promise<Metadata> {
+  const { slug } = await params;
   return {
-    title: `${unSlugify(slug)} | Movie`,
+    title: `${slug
+      .split("-")
+      .slice(0, -1)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ")} | Devflix`,
     description: `Discover about ${unSlugify(slug)} movie with ${
       process.env.NEXT_PUBLIC_APP_NAME
     }.`,
   };
 }
 
-const MoviePage = async ({ params: { slug } }: MoviePageProps) => {
+const MoviePage = async ({ params }: MoviePageProps) => {
+  const { slug } = await params;
   const id = parseInt(slug.split("-").pop() || "0");
   if (!id) return notFound();
 
