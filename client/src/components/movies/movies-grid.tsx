@@ -1,8 +1,8 @@
-import { Movie } from "@prisma/client";
+import { DisplayMovie } from "@/lib/definitions";
 import MovieCard from "./movie-card";
 
 interface MoviesGridProps {
-  movies: Movie[];
+  movies: DisplayMovie[];
 }
 
 const MoviesGrid = ({ movies }: MoviesGridProps) => {

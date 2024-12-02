@@ -8,13 +8,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { DisplayMovie } from "@/lib/definitions";
 import { getTmdbPoster, slugify } from "@/lib/utils";
-import { Movie } from "@prisma/client";
 import { Info, Play } from "lucide-react";
 import Link from "next/link";
 
 interface HeroCarouselProps {
-  movies?: Movie[];
+  movies?: DisplayMovie[];
 }
 
 export default function HeroCarousel({ movies }: HeroCarouselProps) {

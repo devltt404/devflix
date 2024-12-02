@@ -5,11 +5,11 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { IMovieCard } from "@/lib/definitions";
+import { DisplayMovie } from "@/lib/definitions";
 import MovieCard from "./movie-card";
 
 interface MoviesCarouselProps {
-  movies: IMovieCard[];
+  movies: DisplayMovie[];
 }
 
 export function MoviesCarousel({ movies }: MoviesCarouselProps) {

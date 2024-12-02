@@ -24,7 +24,7 @@ export type SiteConfig = {
 
 export type MoviesSection = {
   title: string;
-  movies?: Movie[];
+  movies?: DisplayMovie[];
 };
 
 export type TMDBPaginationRequestParams = {
@@ -38,7 +38,7 @@ export type PaginationResponse<TData> = {
   results: TData;
 };
 
-export type DetailedMovie = {
+export type TMDBDetailedMovie = {
   adult: boolean;
   backdrop_path: string;
   belongs_to_collection: {
@@ -143,7 +143,15 @@ export type SimplePerson = {
   profile_path: string;
 };
 
-export type IMovieCard = Omit<
+export type DisplayMovie = Pick<
   Movie,
-  "overview" | "vote_count" | "popularity" | "poster_path"
->;
+  | "id"
+  | "title"
+  | "backdrop_path"
+  | "vote_average"
+  | "release_date"
+  | "genres"
+  | "runtime"
+> & {
+  overview?: string;
+};

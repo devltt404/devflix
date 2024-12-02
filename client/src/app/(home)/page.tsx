@@ -1,10 +1,13 @@
 import HeroCarousel from "@/components/hero-carousel";
 import { MoviesCarousel } from "@/components/movies/movies-carousel";
 import SectionHeading from "@/components/section-heading";
-import { MoviesSection, PaginationResponse } from "@/lib/definitions.ts";
+import {
+  DisplayMovie,
+  MoviesSection,
+  PaginationResponse,
+} from "@/lib/definitions.ts";
 import { getMovies } from "@/lib/fetchers/movie";
 import { isNonEmptyArray } from "@/lib/utils";
-import { Movie } from "@prisma/client";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -39,9 +42,10 @@ export default async function Home() {
         sortBy: "popularity",
         limit: 5,
         order: "desc",
+        type: "full",
       }),
     ])
-  ).map((res: PaginationResponse<Movie[]>) => res.results);
+  ).map((res: PaginationResponse<DisplayMovie[]>) => res.results);
 
   const moviesSections: MoviesSection[] = [
     { title: "Top Rated", movies: topRated },

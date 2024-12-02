@@ -1,4 +1,4 @@
-import { IMovieCard } from "@/lib/definitions";
+import { DisplayMovie } from "@/lib/definitions";
 import { cn, getTmdbThumb, slugify } from "@/lib/utils";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -7,7 +7,7 @@ import { Separator } from "../ui/separator";
 import MovieScore from "./movie-score";
 
 interface MovieCardProps {
-  movie: IMovieCard;
+  movie: DisplayMovie;
   className?: string;
 }
 

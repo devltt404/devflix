@@ -2,11 +2,11 @@
 
 import prisma from "@/db";
 import {
-  DetailedMovie,
-  IMovieCard,
+  DisplayMovie,
   PaginationResponse,
+  TMDBDetailedMovie,
 } from "@/lib/definitions";
-import { Movie } from "@prisma/client";
+import { Movie, Prisma } from "@prisma/client";
 import { fetchServer, fetchTMDB } from "../utils";
 
 export async function getMovies({
@@ -14,29 +14,37 @@ export async function getMovies({
   limit,
   order,
   page = 1,
+  type = "simple",
 }: {
   sortBy: keyof Movie;
   limit: number;
   order: "asc" | "desc";
   page?: number;
-}): Promise<PaginationResponse<IMovieCard[]>> {
+  type?: "simple" | "full";
+}): Promise<PaginationResponse<DisplayMovie[]>> {
+  const findQuery: Prisma.MovieFindManyArgs = {
+    take: limit,
+    orderBy: {
+      [sortBy]: order,
+    },
+    skip: (page - 1) * limit,
+    select: {
+      id: true,
+      title: true,
+      runtime: true,
+      backdrop_path: true,
+      release_date: true,
+      vote_average: true,
+      genres: true,
+    },
+  };
+
+  if (type === "full") {
+    findQuery.select!.overview = true;
+  }
+
   const [movies, total_results] = await Promise.all([
-    prisma.movie.findMany({
-      take: limit,
-      select: {
-        id: true,
-        title: true,
-        runtime: true,
-        backdrop_path: true,
-        release_date: true,
-        vote_average: true,
-        genres: true,
-      },
-      orderBy: {
-        [sortBy]: order,
-      },
-      skip: (page - 1) * limit,
-    }),
+    prisma.movie.findMany(findQuery),
     prisma.movie.count(),
   ]);
   const total_pages = Math.ceil(total_results / limit);
@@ -49,8 +57,8 @@ export async function getMovies({
   };
 }
 
-export async function getMovie(id: Movie["id"]): Promise<DetailedMovie> {
-  return fetchTMDB<DetailedMovie>(
+export async function getMovie(id: Movie["id"]): Promise<TMDBDetailedMovie> {
+  return fetchTMDB<TMDBDetailedMovie>(
     `/movie/${id}?append_to_response=videos,credits`,
   );
 }
@@ -58,7 +66,7 @@ export async function getMovie(id: Movie["id"]): Promise<DetailedMovie> {
 export async function getRecommendMovies(
   id: number,
   limit: number,
-): Promise<IMovieCard[]> {
+): Promise<DisplayMovie[]> {
   const recommendIds = await fetchServer<Movie["id"][]>(
     `/movies/${id}/recommend?limit=${limit}`,
   );
