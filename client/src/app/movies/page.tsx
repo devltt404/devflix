@@ -29,10 +29,10 @@ const MoviesPage = async ({ searchParams }: MoviesPageProps) => {
   });
 
   return (
-    <div className="container-area h-screen animate-page-enter">
+    <div className="container-area animate-page-enter">
       <h1 className="heading">New Movies</h1>
       <MoviesGrid movies={movies} />
-      <div className="my-10" />
+      <div className="my-12" />
       <QueryPagination totalPages={total_pages} page={page} />
     </div>
   );
